@@ -1,0 +1,9 @@
+{
+	"关机": "shutdown -s -t 00",
+	"取消关机": "shutdown -a",
+	"重启": "shutdown -r",
+	"休眠": "rundll32.exe powrprof.dll,SetSuspendState 0,1,0",
+	"锁屏": "rundll32.exe user32.dll,LockWorkStation",
+	"退出": "exit monitor",
+	"截屏": "screenshot"
+}

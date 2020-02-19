@@ -2,7 +2,7 @@ class Config(object):
     SMTP_SERVER  = "smtp.163.com"
     SMTP_PORT    = 0
     POP_SERVER   = "pop.163.com"
-    POP_INTERVAL = 60 # in seconds
+    POP_INTERVAL = 1 # in minutes
     ENABLE_SSL   = False
     USERNAME     = "xxxx@163.com"
     PASSWORD     = "xxxx"

@@ -93,10 +93,10 @@ class SmtpServer(SmtpPop3Base):
 
         try:
             self.server.sendmail(self.from_addr, [to_addr], msg.as_string())
-            print('Email sending to %s ... OK' % to_addr, flush=True)
+            print('Email sending to %s ... OK' % to_addr)
             return True
         except smtplib.SMTPException as e:
-            print('Email sending to %s ... failed: <%s>.' % (to_addr,e), flush=True)
+            print('Email sending to %s ... failed: <%s>.' % (to_addr,e))
             return False
 
 
@@ -135,7 +135,7 @@ class EmailMonitor(object):
         self.cmd_executor = CmdExecutor()
         self.white_list = Config.WHITE_LIST
         self.msg_num = self.pop_server.msg_num
-        print('Initial Messages: %s' % self.msg_num, flush=True)
+        print('Initial Messages: %s' % self.msg_num)
 
 
     def _decode_str(self, s):
@@ -156,11 +156,11 @@ class EmailMonitor(object):
             msg = self.pop_server.get_msg(index)
             from_name, from_addr = self._decode_addr(msg.get('From'))
             subject = self._decode_str(msg.get('Subject', '')).strip()
-            print(('Message: %d' % index).center(WIDTH, '-'), flush=True)
-            print('From:', '%s <%s>' % (from_name, from_addr), flush=True)
-            print('Subject:', subject, flush=True)
+            print(('Message: %d' % index).center(WIDTH, '-'))
+            print('From:', '%s <%s>' % (from_name, from_addr))
+            print('Subject:', subject)
             if from_addr in self.white_list and self.cmd_executor.is_cmd_supported(subject):
-                print('Execute command: %s' % subject, flush=True)
+                print('Execute command: %s' % subject)
                 __, output, attach_file = self.cmd_executor.execute(subject)
                 self.send_result(from_addr, subject=output, filename=attach_file)
 
@@ -194,18 +194,18 @@ class CmdExecutor(object):
     def execute(self, cmd_name):
         if not self.is_cmd_supported(cmd_name):
             output = '[Error]: Command <%s> is not supported.' % cmd_name
-            print(output, flush=True)
+            print(output)
             return False, output
 
         cmd = self._commands.get(cmd_name)
-        print('Command line: "%s"' % cmd, flush=True)
-        print('Result: ', end='', flush=True)
+        print('Command line: "%s"' % cmd)
+        print('Result: ', end='')
         result = False
         attach_file = None
         try:
             self._exe_cmd(cmd)
         except SystemExit:
-            print('Exit', flush=True)
+            print('Exit')
             sys.exit(0)
         except Exception as e:
             output = 'Failed: %s' % e
@@ -213,7 +213,7 @@ class CmdExecutor(object):
             output ='OK'
             result = True
 
-        print(output, flush=True)
+        print(output)
 
         if cmd == 'screenshot' and result:
             attach_file = SCREENSHOT_FILE

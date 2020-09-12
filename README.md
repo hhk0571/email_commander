@@ -19,6 +19,12 @@
 其实也没啥用, 只是写着玩儿 ^_^
 
 # 第三方软件包
+
+安装Pillow模块, 用于截屏操作.
+```bash
+pip install Pillow
+```
+
 如果需要设置代理才能通过POP3/SMTP收发邮件(比如在公司网络里), 需要安装安装 Pysocks模块:
 ```bash
 pip install Pysocks

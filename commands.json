@@ -6,5 +6,6 @@
 	"锁屏": "rundll32.exe user32.dll,LockWorkStation",
 	"退出": "exit monitor",
 	"截屏": "screenshot",
+	"指令列表": "list commands",
 	"测试未实现": "NotImplemented"
 }

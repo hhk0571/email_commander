@@ -169,8 +169,8 @@ class EmailMonitor(object):
             print('Subject:', subject)
             if from_addr in self.white_list and self.cmd_executor.is_cmd_supported(subject):
                 print('Execute command: %s' % subject)
-                __, output, attach_file = self.cmd_executor.execute(subject)
-                self.send_result(from_addr, subject=output, filename=attach_file)
+                __, output, attach_file, more_info = self.cmd_executor.execute(subject)
+                self.send_result(from_addr, subject=output, filename=attach_file, content=more_info)
 
 
     def send_result(self, to_addr, subject='', content=None, filename=None):
@@ -200,6 +200,13 @@ class CmdExecutor(object):
 
 
     def execute(self, cmd_name):
+        '''
+        returns following values:
+            bool  result,
+            str   command execution summary
+            str   attachment filename
+            str   more information
+        '''
         if not self.is_cmd_supported(cmd_name):
             output = '[Error]: Command <%s> is not supported.' % cmd_name
             print(output)
@@ -210,8 +217,9 @@ class CmdExecutor(object):
         print('Result: ', end='')
         result = False
         attach_file = None
+        more_info = None
         try:
-            self._exe_cmd(cmd)
+            more_info = self._exe_cmd(cmd)
         except SystemExit:
             print('Exit')
             sys.exit(0)
@@ -226,13 +234,15 @@ class CmdExecutor(object):
         if cmd == 'screenshot' and result:
             attach_file = SCREENSHOT_FILE
 
-        return result, 'Command <%s>: %s' % (cmd_name, output), attach_file
+        return result, 'Command <%s>: %s' % (cmd_name, output), attach_file, more_info
 
 
     def _exe_cmd(self, cmd):
         if cmd == 'screenshot':
             img = ImageGrab.grab()
             img.save(SCREENSHOT_FILE)
+        elif cmd == 'list commands':
+            return '\n'.join(self._commands.keys())
         elif cmd == 'exit monitor':
             raise SystemExit
         elif cmd == 'NotImplemented':

@@ -14,6 +14,13 @@ from email.utils import parseaddr
 import json
 from config import Config
 
+if Config.ENABLE_PROXY:
+    import socks
+    import socket
+    socks.set_default_proxy(socks.PROXY_TYPES[Config.PROXY_TYPE], Config.PROXY_IP, Config.PROXY_PORT)
+    socket.socket = socks.socksocket
+
+
 WIDTH = 50
 SCREENSHOT_FILE = 'screenshot.jpg'
 
@@ -133,6 +140,7 @@ class EmailMonitor(object):
         self.smtp_server = SmtpServer()
         self.pop_server = PopServer()
         self.cmd_executor = CmdExecutor()
+        Config.WHITE_LIST.add(Config.USERNAME)
         self.white_list = Config.WHITE_LIST
         self.msg_num = self.pop_server.msg_num
         print('Initial Messages: %s' % self.msg_num)

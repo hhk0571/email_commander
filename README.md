@@ -1,19 +1,21 @@
 <!-- TOC -->
 
-- [介绍](#介绍)
+- [简介](#简介)
 - [第三方软件包](#第三方软件包)
 - [使用方法](#使用方法)
     - [设置邮箱信息](#设置邮箱信息)
     - [运行服务程序](#运行服务程序)
     - [发送指令邮件](#发送指令邮件)
     - [支持的指令](#支持的指令)
+- [Q&A 常见问题](#qa-常见问题)
+    - [我的屏幕分辨率是1920*1080, 为何ImageGrab 只给我1280*720的分辨率?](#我的屏幕分辨率是19201080-为何imagegrab-只给我1280720的分辨率)
 
 <!-- /TOC -->
 
 利用邮件向Windows主机发送并指令
 ========
 
-# 介绍
+# 简介
 利用邮件向Windows主机发送并指令, 执行的结果通过邮件回复.
 
 其实也没啥用, 只是写着玩儿 ^_^
@@ -79,3 +81,29 @@ python3 email_commander.py
 | 退出  |退出本程序|
 | 截屏  |截取计算机屏幕, 并通过邮件回复|
 | 指令列表 | 列出所有支持的指令 |
+
+# Q&A 常见问题
+
+## 我的屏幕分辨率是1920*1080, 为何ImageGrab 只给我1280*720的分辨率?
+
+### 问题描述
+```python
+In [3]: from PIL import ImageGrab
+
+In [4]: img = ImageGrab.grab()
+
+In [5]: img
+Out[5]: <PIL.Image.Image image mode=RGB size=1280x720 at 0x27F53C8B438>
+```
+从上面的输出可以看到 ImageGrab 默认分辨率`1280x720`比我实际的分辨率`1920*1080`小.
+
+### 解决办法:
+
+找到Python可执行文件, 具体位置取决于你安装时指定的位置, 比如我的python装在这里: `C:\Users\henhuang\AppData\Local\Programs\Python\Python36\python.exe`
+
+找到之后, 点击右键, 进入 Properties -> Compatibility 选项卡:
+
+![Compatibility](docs/setting_01.png
+"Compatibility")
+
+![Program DPI](docs/setting_02.png "Program DPI")

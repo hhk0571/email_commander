@@ -181,13 +181,17 @@ class EmailMonitor(object):
 
     def run(self):
         while True:
-            msg_num = self.pop_server.msg_num
-            if msg_num > self.msg_num:
-                self.handle_new_msgs(msg_num)
-                self.msg_num = msg_num
-            self.pop_server.quit()
-            time.sleep(Config.POP_INTERVAL * 60)
-            self.pop_server.login()
+            try:
+                msg_num = self.pop_server.msg_num
+                if msg_num > self.msg_num:
+                    self.handle_new_msgs(msg_num)
+                    self.msg_num = msg_num
+                self.pop_server.quit()
+                time.sleep(Config.POP_INTERVAL * 60)
+                self.pop_server.login()
+            except KeyboardInterrupt:
+                print('\nInterrupted by user.\nBye bye~~')
+                break
 
 
 class CmdExecutor(object):

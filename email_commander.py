@@ -186,14 +186,16 @@ class EmailMonitor(object):
                     self.handle_new_msgs(msg_num)
                     self.msg_num = msg_num
                 self.pop_server.quit()
-                time.sleep(Config.POP_INTERVAL * 60)
-                self.pop_server.login()
-            except KeyboardInterrupt:
-                print('\nInterrupted by user.\nBye bye~~')
-                break
             except Exception as e:
                 print(e)
 
+            try:
+                time.sleep(Config.POP_INTERVAL * 60)
+            except KeyboardInterrupt:
+                print('\nInterrupted by user.\nBye bye~~')
+                break
+            else:
+                self.pop_server.login()
 
 class CmdExecutor(object):
     def __init__(self):

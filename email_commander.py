@@ -4,7 +4,6 @@ import sys
 import time
 import smtplib
 import poplib
-from PIL import ImageGrab
 from email import encoders
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart, MIMEBase
@@ -245,6 +244,7 @@ class CmdExecutor(object):
 
     def _exe_cmd(self, cmd):
         if cmd == 'screenshot':
+            from PIL import ImageGrab
             img = ImageGrab.grab()
             img.save(SCREENSHOT_FILE)
         elif cmd == 'list commands':

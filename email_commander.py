@@ -61,7 +61,7 @@ class SmtpServer(SmtpPop3Base):
         else:
             try:
                 self.server = smtplib.SMTP_SSL(Config.SMTP_SERVER, Config.SMTP_PORT)
-            except:
+            except Exception:
                 self.server = smtplib.SMTP_SSL(Config.SMTP_SERVER)
             self.server.set_debuglevel(Config.DEBUG_LEVEL)
             self.server.ehlo(Config.SMTP_SERVER)
@@ -192,6 +192,8 @@ class EmailMonitor(object):
             except KeyboardInterrupt:
                 print('\nInterrupted by user.\nBye bye~~')
                 break
+            except Exception as e:
+                print(e)
 
 
 class CmdExecutor(object):
